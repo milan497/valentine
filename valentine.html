@@ -1,0 +1,82 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Heart, Flower2, Ring, Music } from "lucide-react";
+
+export default function ValentineProposal() {
+  const [response, setResponse] = useState(null);
+  const [playMusic, setPlayMusic] = useState(false);
+
+  useEffect(() => {
+    if (playMusic) {
+      const audio = new Audio("https://assets.mixkit.co/music/preview/mixkit-romantic-touch-875.mp3");
+      audio.loop = true;
+      audio.play();
+    }
+  }, [playMusic]);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 via-red-500 to-pink-400 text-center p-6 animate-fade-in">
+      {response === "yes" ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-center"
+        >
+          <h1 className="text-6xl font-extrabold text-white drop-shadow-lg animate-pulse">Yay! You said YES! 🎉</h1>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="mt-6 flex space-x-6"
+          >
+            <Flower2 size={100} className="text-yellow-300 animate-bounce" />
+            <Ring size={100} className="text-yellow-500 animate-spin-slow" />
+            <Flower2 size={100} className="text-yellow-300 animate-bounce" />
+          </motion.div>
+          <p className="text-3xl mt-6 text-white font-semibold animate-fade-in">I love you forever! 💖</p>
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-center"
+        >
+          <h1 className="text-6xl font-extrabold text-white drop-shadow-lg animate-pulse">Will you be my Valentine? 💕</h1>
+          <motion.div
+            initial={{ y: -10 }}
+            animate={{ y: 10 }}
+            transition={{ repeat: Infinity, repeatType: "mirror", duration: 1 }}
+            className="mt-6"
+          >
+            <Heart size={120} className="text-red-500 drop-shadow-xl animate-heartbeat" />
+          </motion.div>
+          <div className="mt-8 space-x-6">
+            <Button
+              className="bg-green-500 text-white px-8 py-4 rounded-full text-3xl shadow-xl hover:bg-green-600 transform transition-transform hover:scale-110"
+              onClick={() => setResponse("yes")}
+            >
+              Yes 💖
+            </Button>
+            <Button
+              className="bg-red-500 text-white px-8 py-4 rounded-full text-3xl shadow-xl hover:bg-red-600 transform transition-transform hover:scale-110"
+              onClick={() => alert("Please say yes! 🥺💔")}
+            >
+              No 😢
+            </Button>
+          </div>
+          <div className="mt-6">
+            <Button
+              className="bg-blue-500 text-white px-6 py-3 rounded-full shadow-xl hover:bg-blue-600 flex items-center transform transition-transform hover:scale-110"
+              onClick={() => setPlayMusic(true)}
+            >
+              <Music className="mr-2" /> Play Romantic Music 🎶
+            </Button>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
